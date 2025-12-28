@@ -24,6 +24,7 @@ jobs:
     steps:
       - run: |
           for pr_number in $(gh pr list --state open --label "dependencies" --json number | jq -r '.[] | .number'); do
+            echo "Merging $pr_number"
             gh pr merge --auto --squash --delete-branch $pr_number
           done
 
@@ -34,6 +35,7 @@ jobs:
     steps:
       - run: |
           for pr_number in $(gh pr list --state open --json number,title | jq -r '.[] | select(.title | contains("$KEYWORD")) | .number'); do
+            echo "Merging $pr_number"
             gh pr merge --auto --squash --delete-branch $pr_number
           done
         env:
