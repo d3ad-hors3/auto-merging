@@ -5,14 +5,20 @@
 name: Auto Merge Dependabot PRs
 
 on:
-  pull_request_target:
-    branches:
-      - main
-    types:
-      - labeled
-
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      method:
+        description: "Method to use for merging PRs"
+        type: choice
+        options:
+          - "label"
+          - "title"
+        required: true
+        default: "label"
 jobs:
   merge-prs-by-label:
+    if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && github.event.inputs.method == 'label')
     name: Merge Dependabot PRs with 'dependencies' label
     runs-on: ubuntu-latest
     steps:
@@ -22,6 +28,7 @@ jobs:
           done
 
   merge-prs-by-title:
+    if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && github.event.inputs.method == 'title')
     name: Merge Dependabot PRs with keyword in title
     runs-on: ubuntu-latest
     steps:
