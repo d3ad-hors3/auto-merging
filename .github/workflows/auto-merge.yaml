@@ -17,8 +17,6 @@ on:
         required: true
         default: "label"
 
-permissions: write-all
-
 jobs:
   merge-prs-by-label:
     if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && github.event.inputs.method == 'label')
@@ -35,7 +33,7 @@ jobs:
           done
         env:
           LABEL: "dependencies"
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.AUTO_MERGE_TOKEN }}
 
   merge-prs-by-title:
     if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && github.event.inputs.method == 'title')
@@ -52,4 +50,4 @@ jobs:
           done
         env:
           KEYWORD: "security"
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.AUTO_MERGE_TOKEN }}
