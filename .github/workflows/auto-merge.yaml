@@ -16,6 +16,10 @@ on:
           - "title"
         required: true
         default: "label"
+
+permissions:
+  issues: write
+  pull-requests: write
 jobs:
   merge-prs-by-label:
     if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && github.event.inputs.method == 'label')
