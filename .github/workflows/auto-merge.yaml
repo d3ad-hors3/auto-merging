@@ -26,6 +26,7 @@ jobs:
     name: Merge Dependabot PRs with 'dependencies' label
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - name: Merge Dependabot PRs by label
         run: |
           for pr_number in $(gh pr list --state open --label "$LABEL" --json number | jq -r '.[] | .number'); do
@@ -41,6 +42,7 @@ jobs:
     name: Merge Dependabot PRs with keyword in title
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - name: Merge Dependabot PRs by title
         run: |
           for pr_number in $(gh pr list --state open --json number,title | jq -r '.[] | select(.title | contains("$KEYWORD")) | .number'); do
