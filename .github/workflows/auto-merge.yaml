@@ -27,10 +27,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          for pr_number in $(gh pr list --state open --label "dependencies" --json number | jq -r '.[] | .number'); do
+          for pr_number in $(gh pr list --state open --label "$LABEL" --json number | jq -r '.[] | .number'); do
             echo "Merging $pr_number"
             gh pr merge --auto --squash --delete-branch $pr_number
           done
+        env:
+          LABEL: "dependencies"
+          GH_TOKEN: ${{ github.token }}
 
   merge-prs-by-title:
     if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && github.event.inputs.method == 'title')
@@ -44,3 +47,4 @@ jobs:
           done
         env:
           KEYWORD: "security"
+          GH_TOKEN: ${{ github.token }}
