@@ -1,0 +1,31 @@
+# .github/dependabot.yml
+version: 2
+
+updates:
+  # Check for GitHub Actions updates
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(security): "
+      prefix-development: "chore(dep): "
+    open-pull-requests-limit: 10
+    target-branch: "main"
+    labels:
+      - "dependencies"
+      - "github-actions"
+
+  # Check for Node.js updates (grouped as patch)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(security): "
+      prefix-development: "chore(dep): "
+    open-pull-requests-limit: 10
+    target-branch: "main"
+    labels:
+      - "dependencies"
+      - "javascript"
