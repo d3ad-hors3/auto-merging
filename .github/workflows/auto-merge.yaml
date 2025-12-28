@@ -4,6 +4,10 @@
 
 name: Auto Merge Dependabot PRs
 
+permissions:
+  issues: write
+  pull-requests: write
+
 on:
   pull_request:
   workflow_dispatch:
