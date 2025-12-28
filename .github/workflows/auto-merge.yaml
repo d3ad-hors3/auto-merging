@@ -20,6 +20,8 @@ on:
 permissions:
   issues: write
   pull-requests: write
+  contents: read
+
 jobs:
   merge-prs-by-label:
     if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && github.event.inputs.method == 'label')
@@ -31,6 +33,7 @@ jobs:
         run: |
           for pr_number in $(gh pr list --state open --label "$LABEL" --json number | jq -r '.[] | .number'); do
             echo "Merging $pr_number"
+            gh pr review --approve $pr_number
             gh pr merge --auto --squash --delete-branch $pr_number
           done
         env:
@@ -47,6 +50,7 @@ jobs:
         run: |
           for pr_number in $(gh pr list --state open --json number,title | jq -r '.[] | select(.title | contains("$KEYWORD")) | .number'); do
             echo "Merging $pr_number"
+            gh pr review --approve $pr_number
             gh pr merge --auto --squash --delete-branch $pr_number
           done
         env:
