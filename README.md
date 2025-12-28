@@ -13,3 +13,9 @@ The repository contains some dependencies that are outdated/vulnerable and shoul
 
 > [!NOTE]
 > There are also github actions in the [.github/workflows](.github/workflows/) that will eventually become outdated.
+
+## Good to know
+
+### Dependabot Labels
+
+If you use labels in your dependabot configuration then **you have to create the labels** before running a dependency update. Otherwise, it won't be able to find them and will fail assign the label which can affect automations that depend on said labels.
