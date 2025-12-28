@@ -1,0 +1,24 @@
+{
+  "name": "auto-merging",
+  "version": "1.0.0",
+  "description": "This repository is a template designed to get you started with a secure Continous Integration and Development (CI/CD) pipeline. The template includes:",
+  "homepage": "https://github.com/d3ad-hors3/auto-merging#readme",
+  "bugs": {
+    "url": "https://github.com/d3ad-hors3/auto-merging/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d3ad-hors3/auto-merging.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.0",
+    "next": "^15.0.4"
+  }
+}
