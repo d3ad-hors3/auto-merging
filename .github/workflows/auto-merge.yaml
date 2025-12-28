@@ -8,18 +8,15 @@ on:
   pull_request:
   workflow_dispatch:
     inputs:
-      method:
-        description: "Method to use for merging PRs"
-        type: choice
-        options:
-          - "label"
-          - "title"
-        required: true
-        default: "label"
+      title:
+        description: Title of the pull request
+        required: false
+        type: string
+        default: security
 
 jobs:
   merge-prs-by-label:
-    if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && github.event.inputs.method == 'label')
+    if: github.event_name == 'pull_request'
     name: Merge Dependabot PRs with 'dependencies' label
     runs-on: ubuntu-latest
     steps:
@@ -36,18 +33,17 @@ jobs:
           GH_TOKEN: ${{ secrets.AUTO_MERGE_TOKEN }}
 
   merge-prs-by-title:
-    if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && github.event.inputs.method == 'title')
+    if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && github.event.inputs.title != null)
     name: Merge Dependabot PRs with keyword in title
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - name: Merge Dependabot PRs by title
         run: |
-          for pr_number in $(gh pr list --state open --json number,title | jq -r '.[] | select(.title | contains("$KEYWORD")) | .number'); do
+          for pr_number in $(gh pr list --state open --json number,title | jq -r '.[] | select(.title | contains("${{github.event.inputs.title && github.event.inputs.title || 'security' }}")) | .number'); do
             echo "Merging $pr_number"
             gh pr review --approve $pr_number
             gh pr merge --auto --squash --delete-branch $pr_number
           done
         env:
-          KEYWORD: "security"
           GH_TOKEN: ${{ secrets.AUTO_MERGE_TOKEN }}
