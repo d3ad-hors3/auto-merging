@@ -8,6 +8,10 @@ on:
   pull_request:
     types: [opened, reopened, edited]
     branches: [main]
+
+  schedule:
+    - cron: "30 2 * * *"
+
   workflow_dispatch:
     inputs:
       title:
