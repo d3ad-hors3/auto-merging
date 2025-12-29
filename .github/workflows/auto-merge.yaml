@@ -34,7 +34,7 @@ jobs:
               echo "::notice :: Merging PR ${pr_number}"
               gh pr merge --auto --squash --delete-branch $pr_number
             else
-              echo "::warning :: Skipping PR ${pr_number} because the pr is not mergeable or the user is not 'dependabot[bot]'"
+              echo "::warning :: Skipping PR ${pr_number} because the pr is not mergeable ($MERGEABLE) or the user is not 'dependabot[bot]' ($USER)"
             fi
           done
         env:
