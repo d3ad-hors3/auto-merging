@@ -15,6 +15,21 @@ updates:
     labels:
       - "dependencies"
       - "github-actions"
+    groups:
+      # Version updates for patch releases are safe to auto merge because
+      # patches usually don't introduce new features or behaviours.
+      safe-updates-version:
+        applies-to: version-updates
+        update-types:
+          - patch
+      # Security updates for patch and minor releases should be auto merged
+      # to mitigate the vulnerabilities that they expose the application to.
+      # These updates usually don't introduce new features or behaviours.
+      safe-updates-security:
+        applies-to: security-updates
+        update-types:
+          - patch
+          - minor
 
   # Check for Node.js updates (grouped as patch)
   - package-ecosystem: "npm"
@@ -32,14 +47,14 @@ updates:
     groups:
       # Version updates for patch releases are safe to auto merge because
       # patches usually don't introduce new features or behaviours.
-      safe-version-updates:
+      safe-updates-version:
         applies-to: version-updates
         update-types:
           - patch
       # Security updates for patch and minor releases should be auto merged
       # to mitigate the vulnerabilities that they expose the application to.
       # These updates usually don't introduce new features or behaviours.
-      safe-security-updates:
+      safe-updates-security:
         applies-to: security-updates
         update-types:
           - patch

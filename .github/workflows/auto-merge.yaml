@@ -22,11 +22,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-      - name: Merge Dependabot PRs by title
+
+      # looks specifically for prs that match the '.*safe-.*-updates' regex in the title
+      # which indicates that they are part of the 'safe' group of updates defined in the
+      # dependbot.yaml config
+      - name: Merge Safe Dependabot PRs
         run: |
-          for pr_number in $(gh pr list --state open --json number,title | jq -r '.[] | select(.title | contains("${{github.event.inputs.title && github.event.inputs.title || 'security' }}")) | .number'); do
-            echo "Merging $pr_number"
-            gh pr merge --auto --squash --delete-branch $pr_number
+          for pr_number in $(gh pr list --state open --json number,title | jq -r '.[] | select(.title | contains("safe-updates-")) | .number'); do
+            USER=$(gh api /repos/${{github.repository}}/pulls/$pr_number --jq '.user.login')
+            MERGEABLE=$(gh api /repos/${{github.repository}}/pulls/$pr_number --jq '.mergeable')
+
+            if [[ "$USER" == "dependabot[bot]" ]] && [[ "$MERGEABLE" == true ]]; then
+              echo "::notice :: Merging PR ${pr_number}"
+              gh pr merge --auto --squash --delete-branch $pr_number
+            else
+              echo "::warning :: Skipping PR ${pr_number} because the pr is not mergeable or the user is not 'dependabot[bot]'"
+            fi
           done
         env:
           GH_TOKEN: ${{ secrets.AUTO_MERGE_TOKEN }}
