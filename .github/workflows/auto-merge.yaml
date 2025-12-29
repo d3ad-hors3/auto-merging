@@ -17,25 +17,8 @@ on:
         default: security
 
 jobs:
-  merge-prs-by-label:
-    if: github.event_name == 'pull_request'
-    name: Merge Dependabot PRs with 'dependencies' label
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-      - name: Merge Dependabot PRs by label
-        run: |
-          for pr_number in $(gh pr list --state open --label "$LABEL" --json number | jq -r '.[] | .number'); do
-            echo "Merging $pr_number"
-            gh pr merge --auto --squash --delete-branch $pr_number
-          done
-        env:
-          LABEL: "dependencies"
-          GH_TOKEN: ${{ secrets.AUTO_MERGE_TOKEN }}
-
-  merge-prs-by-title:
-    if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && github.event.inputs.title != null)
-    name: Merge Dependabot PRs with keyword in title
+  merge-prs:
+    name: Merge Dependabot PRs
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
