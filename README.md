@@ -16,6 +16,12 @@ The repository contains some dependencies that are outdated/vulnerable and shoul
 
 ## Good to know
 
+There are a few things you need to configure for auto merge to work:
+
+- You need to use a PAT for the `gh cli` commands with the `content:write` scope for general dependencies and `workflow:write` for merging dependabot prs for github actions.
+
+- [Enable auto-merge](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-auto-merge-for-pull-requests-in-your-repository): Settings > General > Pull Requests > "Allow auto-merge Loading"
+
 ### Dependabot Labels
 
 If you use labels in your dependabot configuration then **you have to create the labels** before running a dependency update. Otherwise, it won't be able to find them and will fail assign the label which can affect automations that depend on said labels.
