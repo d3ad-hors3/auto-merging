@@ -28,7 +28,7 @@ jobs:
             
             if [[ "$TITLE" == *'safe-updates'* ]]; then
               echo "::notice :: Merging PR ${pr_number}"
-              gh pr merge --auto --squash --delete-branch $pr_number
+              gh pr merge --squash --delete-branch $pr_number
             else
               echo "::warning :: Skipping PR ${pr_number} because the title, '$TITLE', doesn't contain 'safe-updates'"
             fi
