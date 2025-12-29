@@ -29,3 +29,18 @@ updates:
     labels:
       - "dependencies"
       - "javascript"
+    groups:
+      # Version updates for patch releases are safe to auto merge because
+      # patches usually don't introduce new features or behaviours.
+      safe-version-updates:
+        applies-to: version-updates
+        update-types:
+          - patch
+      # Security updates for patch and minor releases should be auto merged
+      # to mitigate the vulnerabilities that they expose the application to.
+      # These updates usually don't introduce new features or behaviours.
+      safe-security-updates:
+        applies-to: security-updates
+        update-types:
+          - patch
+          - minor
