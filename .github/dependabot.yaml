@@ -8,8 +8,7 @@ updates:
     schedule:
       interval: "weekly"
     commit-message:
-      prefix: "chore(security): "
-      prefix-development: "chore(dep): "
+      prefix: "chore(dep): "
     open-pull-requests-limit: 10
     target-branch: "main"
     labels:
@@ -37,8 +36,7 @@ updates:
     schedule:
       interval: "weekly"
     commit-message:
-      prefix: "chore(security): "
-      prefix-development: "chore(dep): "
+      prefix: "chore(deps): "
     open-pull-requests-limit: 10
     target-branch: "main"
     labels:
